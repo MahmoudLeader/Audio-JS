@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="icon" href="icon/ic_launcher_icon.png" type="icon/png" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+  <title>MP3.com</title>
+</head>
+<body>
+  <div class="main">
+    <div class="contenet">
+      <div class="header">
+        <h3 id="title"></h3>
+        <!-- <img class="icon" src="icon/icon_more_toolbar_normal.png" alt="" /> -->
+        <!-- <button class="btn-icon" onclick="show_option_audio()">
+          &#4967;
+        </button> -->
+        <p class="Artist"></p>
+      </div>
+      <!-- <section onclick="hid()"> -->
+      <section>
+        <div class="box_in1">
+          <img src="./img/i1.png" alt="" id="Img" />
+          <p id="bor"></p>
+        </div>
+      </section>
+      <div class="footer">
+        <div class="properts-plye">
+          <!-- <button type="button" onclick="Volume(this)" id="volume">&#128266;</button> -->
+          <img id="volume" onclick="Volume()" src="icon/ic_resume_volume_normal.png" alt="" class="icon">
+          <label for="AddAudio" class="btn-icon">
+            &#10005;
+          </label>
+          <input type="file" id="AddAudio" multiple accept="audio/*"/>
+          <input type="file" id="AddAudio" multiple />
+          
+          <button id="Frt" onclick="AddFavorites()" class="btn-icon">&#10025;</button>
+          <!-- <img id="Frt" onclick="AddFavorites()" src="icon/grid_icon_collect.png" alt="" class="icon"> -->
+        </div>
+        
+        <div class="der">
+          <p id="current">
+            00:00
+          </p>
+          <input type="range" name="" id="sold" value="0" max="" min="0" />
+          <p id="duration">
+            00:00
+          </p>
+        </div>
+        
+        <div class="controls">
+          <img id="" onclick="show_Audio()" class="icon" src="icon/btn_expansion_xiangqing_focus.png" alt="">
+          
+          <button class="btn">
+            <img onclick="Back()" src="icon/previous.png" alt="">
+          </button>
+          
+          <button class="btn Plye">
+            <img id="plye" src="icon/play.png" alt="">
+          </button>
+          
+          <button class="btn">
+            <img id="next" onclick="Next()" src="icon/next.png" alt="">
+          </button>
+          
+          <img onclick="Loop(this.id)" src="icon/loop.png" alt="" class="icon">
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="show">
+      <div class="head">
+        <h3>
+          قائمة التشغيل الحالية
+          (<span></span>
+          أغنية
+          )
+        </h3>
+        <button class="btn-icon" style="color:#000;">&#4967;</button>
+      </div>
+      <div class="box">
+      <div class="in-show">
+        <p>
+              ارض البركان __ من أقوى زوامل
+            </p>
+        <img src="icon/Add.png" alt="" />
+      </div>
+      <div class="in-show">
+        <p>
+              ارض البركان __ من أقوى زوامل
+            </p>
+        <img class="icon-del" src="icon/Add.png" alt="" />
+      </div>
+      <div class="in-show">
+        <p>
+              ارض البركان __ من أقوى زوامل
+            </p>
+        <img class="icon-del" src="icon/Add.png" alt="" />
+      </div>
+      </div>
+      <button class="btn" onclick="headen()">إلغاء</button>
+    </div>
+  </div>
+  <script src="./script/main.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
