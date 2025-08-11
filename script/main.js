@@ -1,9 +1,10 @@
 // let Styles = document.styleSheets[0];
 //let Styles = document.styleSheets[0].rules[0];#a72d5d
 let backCol_btn = document.getElementsByClassName("btn");
-let icon = document.getElementsByClassName("icon");
+// let icon = document.getElementsByClassName("icon");
 let title = document.getElementById('title');
-let plye = document.querySelector('.plye') || document.getElementById('plye');
+// let plye = document.querySelector('.Plye');
+let plye = document.getElementById('plye');
 let sold = document.getElementById('sold');
 let Img = document.getElementById('Img');
 let adio = document.createElement('audio');
@@ -100,7 +101,30 @@ let Mp3 = [{
     bodyColor: "#555",
     textColor: "#fff",
     colorIcon: 'invert(100%)'
-  }];
+  },
+  {
+    title: "عيسى الليث - الشهادة كرامة ",
+    artist: "عيسى الليث ",
+    favorite: false,
+    path: "mp3/Zamll9.mp3",
+    img: "",
+    download: true,
+    bodyColor: "#555",
+    textColor: "#fff",
+    colorIcon: 'invert(100%)'
+  },
+  {
+    title: "عيسى الليث - على العهد يا صماد",
+    artist: "عيسى الليث ",
+    favorite: false,
+    path: "mp3/Zamll10.mp3",
+    img: "",
+    download: true,
+    bodyColor: "#555",
+    textColor: "#fff",
+    colorIcon: 'invert(100%)'
+  }
+  ];
   
 // function Add Audio to div
 function Add_Audio(Audios = null, type = 'all') {
@@ -113,7 +137,7 @@ function Add_Audio(Audios = null, type = 'all') {
   document.querySelector('.head h3 span').innerHTML = Audios.length.toString();
   Audios.forEach((Audio,i)=>{
       devs += '<div class="in-show">\
-      <p data-index="'+i+'">'+Audio.title+'</p>';
+      <p data-index="'+i+'" onclick="PlayAudio(this)">'+Audio.title+'</p>';
       // devs += '<div class="in-show">\
       // <p data-index="'+i+'">'+Audio.title+'</p>\
       // <button class="icon-del" src="icon/icon_list_download_noral.png" data-index="'+i+'"></button>';
@@ -219,19 +243,23 @@ function Nav(Audio){
 }
 
 // Started Audio
-function start_aidio(i, Audios) {
-  Img.src = (Mp3[i].img != "") ? Mp3[i].img: "img/default_album_pic.png";
-  title.innerHTML = Mp3[i].title;
-  adio.src = Mp3[i].path;
-  document.querySelector('.Artist').innerHTML = Mp3[i].artist;
-  // sold.min = adio.currentTime;
-  //sold.style.webkitBorderBeforeColor='#fff';
+function start_aidio(i, Audios=null) {
+  if(Audios===null){
+    Audios = Mp3;
+  }
+  if (Audios[i].img == "") {
+    Audios[i].img = "img/default_album_pic.png";
+  }
+  // Img.src = (Audios[i].img != "") ? Audios[i].img: "img/default_album_pic.png";
+  Img.src = Audios[i].img;
+  title.innerHTML = Audios[i].title;
+  adio.src = Audios[i].path;
+  document.querySelector('.Artist').innerHTML = Audios[i].artist;
   Favorites();
-  //console.log(adio.getMinutes());
   setTimeout(() => {
     document.getElementById('duration').innerHTML = time_mp3(Math.round(adio.duration), 'd');
-  }, 1000);
-  Nav(Mp3[i]);
+  }, 500);
+  Nav(Audios[i]);
 }
 //start_aidio(index);
 
@@ -270,7 +298,7 @@ function Next() {
   } else {
     index++;
   }
-  Next();
+  // Next();
   sold.value = 0;
   start_aidio(index);
   plye_Mp3();
@@ -287,26 +315,24 @@ function Back() {
   plye_Mp3();
 }
 // function Loop
-function Loop(id) {
+function Loop(btn) {
   if (adio.loop === false) {
-    document.getElementById(id).src = "icon/loop.png";
     adio.loop = true;
+    btn.src = "icon/repeat.png";
   } else {
-    document.getElementById(id).src = "icon/repeat.png";
     adio.loop = false;
+    btn.src = "icon/loop.png";
   }
 }
 // function volume
 function Volume(btn) {
-  //if (adio.volume > 0) {
-  if (adio.muted === false) {
-    console.log(btn.innerHTML,adio.muted);
-    // btn.innerHTML = "&#128263;";
+  if (adio.muted == false) {
     adio.muted = true;
-    document.getElementById("volume").src = "icon/ic_volume_mute_normal.png";
+    // document.getElementById("volume").src = "icon/ic_volume_mute_normal.png";
+    btn.src = "icon/ic_volume_mute_normal.png";
   } else {
     adio.muted = false;
-    document.getElementById("volume").src = "icon/ic_resume_volume_normal.png";
+    btn.src = "icon/ic_resume_volume_normal.png";
   }
 }
 
@@ -320,13 +346,13 @@ function inp() {
 // function show The Audio
 function show_Audio() {
   document.querySelector('.show').style.transform = 'scaleY(1)';
-  document.querySelector('.box1').style["pointer-events"] = 'none';
+  document.querySelector('.contenet').style["pointer-events"] = 'none';
   // window.screen.orientation.unlock();
 }
 // function hidden The Audio
 function headen() {
   document.querySelector('.show').style.transform = 'scaleY(0)';
-  document.querySelector('.box1').style["pointer-events"] = 'auto';
+  document.querySelector('.contenet').style["pointer-events"] = 'auto';
 }
 // function hidden The info Audio
 function show_option_audio() {
@@ -362,7 +388,6 @@ function AddFavorites() {
     Mp3[index].favorite = true;
   }
   Favorites();
-  SaveStorage();
 }
 
 function Favorites() {
@@ -384,21 +409,19 @@ function show_All() {
   Add_Audio(Mp3);
   show_Audio();
 }
-
+adio.addEventListener("pause",pause_Mp3);
 // function Radio
 setInterval(()=> {
-  if (adio.ended === true) {
+  if (adio.ended == true) {
     Next();
   }
-  if (adio.muted === false) {
-    document.getElementById("volume").src = "icon/ic_resume_volume_normal.png";
-  } else {
-    document.getElementById("volume").src = "icon/ic_volume_mute_normal.png";
-  }
+  // if (adio.pause == true) {
+  //   pause_Mp3();
+  // }
   sold.max = Math.round(adio.duration);
   sold.value = Math.round(adio.currentTime);
   document.getElementById('current').innerHTML = (sold.value == 0) ?'00:00': time_mp3(+sold.value, 'c');
-}, 500);
+}, 1000);
 
 //this range
 sold.onchange = inp;
