@@ -1,9 +1,5 @@
-// let Styles = document.styleSheets[0];
-//let Styles = document.styleSheets[0].rules[0];#a72d5d
 let backCol_btn = document.getElementsByClassName("btn");
-// let icon = document.getElementsByClassName("icon");
 let title = document.getElementById('title');
-// let plye = document.querySelector('.Plye');
 let plye = document.getElementById('plye');
 let sold = document.getElementById('sold');
 let Img = document.getElementById('Img');
@@ -258,7 +254,7 @@ function start_aidio(i, Audios=null) {
   Favorites();
   setTimeout(() => {
     document.getElementById('duration').innerHTML = time_mp3(Math.round(adio.duration), 'd');
-  }, 500);
+  }, 1000);
   Nav(Audios[i]);
 }
 //start_aidio(index);
@@ -412,7 +408,7 @@ function show_All() {
 adio.addEventListener("pause",pause_Mp3);
 // function Radio
 setInterval(()=> {
-  if (adio.ended == true) {
+  if (adio.ended === true) {
     Next();
   }
   // if (adio.pause == true) {
