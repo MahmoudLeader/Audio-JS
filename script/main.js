@@ -134,9 +134,6 @@ function Add_Audio(Audios = null, type = 'all') {
   Audios.forEach((Audio,i)=>{
       devs += '<div class="in-show">\
       <p data-index="'+i+'" onclick="PlayAudio(this)">'+Audio.title+'</p>';
-      // devs += '<div class="in-show">\
-      // <p data-index="'+i+'">'+Audio.title+'</p>\
-      // <button class="icon-del" src="icon/icon_list_download_noral.png" data-index="'+i+'"></button>';
     
     devs += '</div>';
   });
@@ -246,15 +243,15 @@ function start_aidio(i, Audios=null) {
   if (Audios[i].img == "") {
     Audios[i].img = "img/default_album_pic.png";
   }
-  // Img.src = (Audios[i].img != "") ? Audios[i].img: "img/default_album_pic.png";
   Img.src = Audios[i].img;
   title.innerHTML = Audios[i].title;
   adio.src = Audios[i].path;
   document.querySelector('.Artist').innerHTML = Audios[i].artist;
   Favorites();
   setTimeout(() => {
+    sold.max = Math.round(adio.duration);
     document.getElementById('duration').innerHTML = time_mp3(Math.round(adio.duration), 'd');
-  }, 1000);
+  }, 500);
   Nav(Audios[i]);
 }
 //start_aidio(index);
@@ -350,17 +347,6 @@ function headen() {
   document.querySelector('.show').style.transform = 'scaleY(0)';
   document.querySelector('.contenet').style["pointer-events"] = 'auto';
 }
-// function hidden The info Audio
-function show_option_audio() {
-  //console.log(document.querySelector('.option-audio').style);
-  if ((document.querySelector('.option-audio').style.transform == "scale(1)")) {
-    document.querySelector('.option-audio').style.setProperty('transform', 'scale(0)');
-    // document.querySelector('.option-audio').style['transform'] = 'scale(1)';
-  } else {
-    document.querySelector('.option-audio').style.setProperty('transform', 'scale(1)');
-    // document.querySelector('.option-audio').style['transform'] = 'scale(0)';
-  }
-}
 // Run Audio onclick Her
 function PlayAudio(item) {
   //console.log(item);
@@ -391,37 +377,18 @@ function Favorites() {
   if (Mp3[index].favorite === true) {
     document.getElementById('Frt').innerHTML = '&#11088;';
     document.getElementById('Frt').classList.add('F');
-    // document.getElementById('Frt').src = 'icon/icon_collect_selected.png';
   } else {
     document.getElementById('Frt').classList.remove('F');
     document.getElementById('Frt').innerHTML = '&#10025;';
-    //document.getElementById('Frt').style['font-size'] = '20px';
-    //document.getElementById('Frt').src = 'icon/grid_icon_collect.png';
   }
 }
-
-// Show All Audio
-function show_All() {
-  Add_Audio(Mp3);
-  show_Audio();
-}
-adio.addEventListener("pause",pause_Mp3);
 // function Radio
 setInterval(()=> {
-  if (adio.ended === true) {
-    Next();
+  if (adio.paused == false) {
+    sold.value = Math.round(adio.currentTime);
+    document.getElementById('current').innerHTML = (sold.value == 0) ?'00:00': time_mp3(+sold.value, 'c'); 
   }
-  // if (adio.pause == true) {
-  //   pause_Mp3();
-  // }
-  sold.max = Math.round(adio.duration);
-  sold.value = Math.round(adio.currentTime);
-  document.getElementById('current').innerHTML = (sold.value == 0) ?'00:00': time_mp3(+sold.value, 'c');
 }, 1000);
-
-//this range
-sold.onchange = inp;
-plye.onclick = Plye_Audio;
 
 window.onload = function() {
   //GetStorage();
@@ -429,6 +396,11 @@ window.onload = function() {
   start_aidio(index,Mp3);
   inp();
 };
+//this range
+sold.onchange = inp;
+plye.onclick = Plye_Audio;
+adio.addEventListener("pause",pause_Mp3);
+adio.addEventListener("ended",Next);
 
 document.getElementById('AddAudio').addEventListener('change', CreateAudio);
 
