@@ -176,28 +176,22 @@ function CreateAudio(event) {
 }
 // function Get Time The Audio
 function time_mp3(duration, t = 'd') {
-  if (t == 'd') {
-    dur = duration;
-  }
   let scund = 0,
   time = 0;
-  for (let i = 0; scund < duration; i++) {
+  for (; scund < duration;) {
     scund = 60 * ++time;
   }
-  //t = a*--m;
-  scund -= 60;
   --time;
-  scund = duration - scund;
-  // console.log('0'+time+':'+scund);
+  scund = duration - (scund-60);
   if (scund > 59) {
-    time=+time+1;
-    scund = "0";
+    time= time + 1;
+    scund = 0;
   }
   if (time < 10) {
-    time = '0'+time;
+    time = `0${time}`;
   }
   if (scund < 10) {
-    scund = '0'+scund;
+    scund = `0${scund}`;
   }
   return time+':'+scund;
 }
@@ -249,8 +243,8 @@ function start_aidio(i, Audios=null) {
   document.querySelector('.Artist').innerHTML = Audios[i].artist;
   Favorites();
   setTimeout(() => {
+    document.getElementById('duration').innerHTML = time_mp3(Math.round(adio.duration));
     sold.max = Math.round(adio.duration);
-    document.getElementById('duration').innerHTML = time_mp3(Math.round(adio.duration), 'd');
   }, 500);
   Nav(Audios[i]);
 }
@@ -386,7 +380,7 @@ function Favorites() {
 setInterval(()=> {
   if (adio.paused == false) {
     sold.value = Math.round(adio.currentTime);
-    document.getElementById('current').innerHTML = (sold.value == 0) ?'00:00': time_mp3(+sold.value, 'c'); 
+    document.getElementById('current').innerHTML = (sold.value == 0) ? '00:00': time_mp3(+sold.value); 
   }
 }, 1000);
 
