@@ -175,7 +175,27 @@ function CreateAudio(event) {
   // DataPro[DataPro.length]=newDataPro;
 }
 // function Get Time The Audio
-function time_mp3(duration, t = 'd') {
+function time_mp3(duration) {
+  let scund = 0,
+  time = 0;
+  for (; scund < duration;) {
+    scund = 60 * ++time;
+  }
+  --time;
+  scund = duration - (scund-60);
+  if (scund > 59) {
+    time= time + 1;
+    scund = 0;
+  }
+  if (time < 10) {
+    time = `0${time}`;
+  }
+  if (scund < 10) {
+    scund = `0${scund}`;
+  }
+  return time+':'+scund;
+}
+function time_mp32(duration) {
   let scund = 0,
   time = 0;
   for (; scund < duration;) {
@@ -243,9 +263,9 @@ function start_aidio(i, Audios=null) {
   document.querySelector('.Artist').innerHTML = Audios[i].artist;
   Favorites();
   setTimeout(() => {
-    document.getElementById('duration').innerHTML = time_mp3(Math.round(adio.duration));
+    document.getElementById('duration').innerHTML = time_mp32(Math.round(adio.duration));
     sold.max = Math.round(adio.duration);
-  }, 500);
+  }, 1000);
   Nav(Audios[i]);
 }
 //start_aidio(index);
